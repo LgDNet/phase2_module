@@ -1,3 +1,5 @@
+!cd phase2_module && make copy
+
 from phase2_module.data.load import Data
 from phase2_module.src.models.classification.models import Model
 from phase2_module.src.base import BasePiepline
