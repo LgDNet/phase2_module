@@ -7,8 +7,8 @@ from sklearn.model_selection import StratifiedKFold
 from tqdm import tqdm
 
 from data.load import Data
-from src.utils.manage_pkl_files import pkl_save
-from src.utils.top_score_instance import check_the_score
+from phase2_module.src.utils.manage_pkl_files import pkl_save
+from phase2_module.src.utils.top_score_instance import check_the_score
 
 
 class BasePiepline(metaclass=ABCMeta):

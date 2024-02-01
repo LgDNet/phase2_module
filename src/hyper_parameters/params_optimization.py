@@ -1,7 +1,7 @@
 import json
 
 from sklearn.model_selection import train_test_split
-from src.utils.top_score_instance import check_the_score
+from phase2_module.src.utils.top_score_instance import check_the_score
 import optuna
 from optuna.samplers import TPESampler
 from pathlib import Path
