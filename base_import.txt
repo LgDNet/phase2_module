@@ -5,8 +5,6 @@ from phase2_module.src.models.classification.models import Model
 from phase2_module.src.base import BasePiepline
 from phase2_module.src.hyper_parameters.params_optimization import xgboost_opt, set_params_optimization_data
 from phase2_module.src.utils.set_seed import seed_everything
-
-
 seed_everything()  # NOTE: default 42
 _model = Model()
 
