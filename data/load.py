@@ -17,7 +17,7 @@ class classproperty:  # noqa
 @dataclass
 class Data:
     _train: str = Path(BASE, "train.csv")
-    _submission: str = Path(BASE, "submission.csv")
+    _submission: str = Path(BASE, "test.csv")
 
     @classproperty
     def train(self):
