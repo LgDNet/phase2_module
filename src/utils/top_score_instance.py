@@ -39,9 +39,9 @@ def check_the_score(predict, answer):
     """
     스코어 확인
     """
-    result1 = f1_score(predict, answer, average="macro")
-    result2 = precision_score(predict, answer, average="macro")
-    result3 = recall_score(predict, answer, average="macro")
+    result1 = f1_score(predict, answer, average="binary")
+    result2 = precision_score(predict, answer, average="binary")
+    result3 = recall_score(predict, answer, average="binary")
     # result4 = roc_auc_score(predict, answer, average="macro", multi_class="ovr")
 
     return {'f1': result1, 'precision': result2, 'recall': result3}
