@@ -17,15 +17,15 @@ class classproperty:  # noqa
 @dataclass
 class Data:
     _train: str = Path(BASE, "train.csv")
-    _submission: str = Path(BASE, "test.csv")
+    _test: str = Path(BASE, "test.csv")
 
     @classproperty
     def train(self):
         return pd.read_csv(self._train)
 
     @classproperty
-    def submission(self):
-        return pd.read_csv(self._submission)
+    def test(self):
+        return pd.read_csv(self._test)
 
 
 if __name__ == "__main__":
