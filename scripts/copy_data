@@ -1,7 +1,8 @@
 #!/bin/bash
 
 if [ -z "$(ls ./data/*.csv 2>/dev/null)" ]; then
-    cp ../*.csv ./data/
+    echo "transfering data train, test"
+    cp ../*.csv ./data/ && mv ./submission.csv ./test.csv
 else
     echo "already data files exists"
 fi
