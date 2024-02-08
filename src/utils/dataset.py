@@ -2,16 +2,10 @@ from dataclasses import dataclass
 import pandas as pd
 from pathlib import Path
 
+from provide import classproperty
 
-BASE = Path(__file__).resolve().parent
 
-
-class classproperty:  # noqa
-    def __init__(self, method):
-        self.func = method
-
-    def __get__(self, instance, cls):
-        return self.func(cls)
+BASE = Path(Path(__file__).resolve().parent.parent.parent, "data")
 
 
 @dataclass
@@ -31,4 +25,3 @@ class Data:
 if __name__ == "__main__":
     print(Data._train)
     print(Data._test)
-    print(Data._submission)
