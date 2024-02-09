@@ -32,10 +32,10 @@ class PickleManager:
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
 
+        file_name_format = f'{name}_{prefix}.pickle'
+
         if not prefix:
             file_name_format = f'{name}.pickle'
-
-        file_name_format = f'{name}_{prefix}.pickle'
 
         file_save_path = Path(BASE, directory, file_name_format)
 
