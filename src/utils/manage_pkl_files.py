@@ -4,7 +4,8 @@ from pathlib import Path
 from collections import defaultdict
 from typing import Dict, List, Callable, Union
 
-from phase2_module.src.utils.provide import classproperty
+# from phase2_module.src.utils.provide import classproperty
+from provide import classproperty
 
 
 BASE: Path = Path(Path(__file__).resolve().parent.parent.parent, "pkls")
@@ -22,7 +23,7 @@ class PickleManager:
 
         return [_file for _file in os.listdir(BASE) if _file not in ignore]
 
-    def save(directory: str, name: str, prefix=None):
+    def save(directory: str, name: str, pkl_file, prefix=None):
         """
         directory: pickle save into directory name
         name: pickle save file name
@@ -37,7 +38,7 @@ class PickleManager:
         file_save_path = Path(BASE, directory, file_name_format)
 
         with open(file_save_path, 'wb') as file:
-            pickle.dump(name, file)
+            pickle.dump(pkl_file, file)
 
     @classmethod
     def load(cls,  pkl_type: str, pkl_name: str) -> Dict[str, Union[str, Dict]]:
@@ -47,7 +48,7 @@ class PickleManager:
         pkl_type: where is in directory e.g) country, model, customer ...
         pkl_name: for load pickle file name
         """
-        pkl_path = Path(BASE, "pkls", pkl_type, pkl_name)
+        pkl_path = Path(BASE, pkl_type, f"{pkl_name}.pickle")
 
         with open(pkl_path, 'rb') as f:
             data = pickle.load(f)
@@ -91,5 +92,4 @@ class PickleManager:
 if __name__ == "__main__":
     print(PickleManager.metadata_directory)
     print(PickleManager.map(PickleManager.loads, PickleManager.metadata_directory).get("customer"))
-
-    PickleManager.save("test", "test", prefix="mode")
+    print(PickleManager.load("test", "test_mode"))
