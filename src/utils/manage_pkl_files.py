@@ -4,8 +4,7 @@ from pathlib import Path
 from collections import defaultdict
 from typing import Dict, List, Callable, Union
 
-# from phase2_module.src.utils.provide import classproperty
-from provide import classproperty
+from phase2_module.src.utils.provide import classproperty
 
 
 BASE: Path = Path(Path(__file__).resolve().parent.parent.parent, "pkls")
