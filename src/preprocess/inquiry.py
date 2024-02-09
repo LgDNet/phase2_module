@@ -165,7 +165,7 @@ class Inquiry:
 
         return new_expected_timeline
 
-    def execute(self, df, module_list=None):
+    def apply(self, df, module_list=None):
         df = self.fill(df)
         df["new_inquiry_type"] = df["inquiry_type"].apply(self.new_inquiry_type)
         df["new_inquiry_type"] = df.apply(
