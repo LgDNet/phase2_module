@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import pandas as pd
 from pathlib import Path
 
-from src.utils.provide import classproperty
+from phase2_module.src.utils.provide import classproperty
 
 
 BASE = Path(Path(__file__).resolve().parent.parent.parent, "data")
