@@ -4,7 +4,7 @@ if [ -z "$(ls ./data/*.csv 2>/dev/null)" ]; then
     echo "transfering data train, test"
     mkdir data
     cp ../train.csv ./data/
-    cp ../submission.csv ./data/test.csv
+    cp ../test.csv ./data/test.csv
 else
     echo "already data files exists"
 fi
