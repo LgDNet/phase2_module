@@ -12,7 +12,7 @@ class Customer:
     ):
         """customer_column의 결측값을 채워주는 함수"""
 
-        customer_df = customer_df.applymap(
+        customer_df = customer_df["customer_type", "customer_job", "customer_position"].applymap(
             lambda x: re.sub("(&|-|/|:)", "", x.lower().replace(" ", ""))
             if isinstance(x, str)
             else x
