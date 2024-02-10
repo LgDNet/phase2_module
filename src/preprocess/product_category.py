@@ -97,5 +97,6 @@ class ProductCategory:
         df["cate_is_nan"] = (
             df[["category_1", "category_2", "category_3"]].isna().any(axis=1)
         )
-
+        df.drop(columns='mapped', inplace=True)
+        df.reset_index(drop = True, inplace = True)
         return df
