@@ -11,8 +11,7 @@ class Customer:
         self, customer_df, target_col, dictionary, comple_list, default_value="etc"
     ):
         """customer_column의 결측값을 채워주는 함수"""
-
-        customer_df = customer_df[["customer_type", "customer_job", "customer_position"]].applymap(
+        customer_df.loc[:,["customer_type", "customer_job", "customer_position"]] = customer_df[["customer_type", "customer_job", "customer_position"]].applymap(
             lambda x: re.sub("(&|-|/|:)", "", x.lower().replace(" ", ""))
             if isinstance(x, str)
             else x
