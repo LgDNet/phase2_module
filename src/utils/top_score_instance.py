@@ -42,8 +42,8 @@ def check_the_score(predict, answer):
     result1 = f1_score(predict, answer, average="binary")
     result2 = precision_score(predict, answer, average="binary")
     result3 = recall_score(predict, answer, average="binary")
-    # result4 = roc_auc_score(predict, answer, average="macro", multi_class="ovr")
+    result4 = roc_auc_score(predict, answer)
 
-    return {'f1': result1, 'precision': result2, 'recall': result3}
+    return {'f1': result1, 'precision': result2, 'recall': result3, 'roc_auc_score':result4}
 
 
