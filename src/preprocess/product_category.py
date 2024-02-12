@@ -68,6 +68,8 @@ class ProductCategory:
         df = pd.concat([df, copy_df])
         # 원본데이터 삭제.
         df = df[df["product_category"] != "washing machine,dryer"]
+        
+        # product_category
         data = df[['product_category','product_subcategory', 'product_modelname','customer_interest']].copy()
         
         data["product_category"] = data["product_category"].replace(self.replacement_dict).str.replace("solar,", "")
@@ -90,8 +92,8 @@ class ProductCategory:
         data.loc[cond8, ['category_1','category_2', 'category_3']] = data.loc[cond8, ['category_1', 'category_2', 'category_3']].fillna('Unknown')
         data["cate_is_nan_all"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1)) | (data[["category_1", "category_2", "category_3"]].apply(lambda row: 'all' in row.values, axis=1))
         
-        # 4번 & 6번 진행
-        cond4 = (((data['customer_interest'] == 4) | (data['customer_interest'] == 6)) & data['cate_is_nan_all'])
+        # 2번, 4번, 6번 진행
+        cond4 = (((data['customer_interest'] ==2) | (data['customer_interest'] == 4) | (data['customer_interest'] == 6)) & data['cate_is_nan_all'] == True)
         data.loc[cond4, "mapped"] = data.loc[cond4, "product_subcategory"].replace(self.six_replace_dict)
         data.loc[cond4, "mapped"] = data.loc[cond4, "mapped"].apply(
             lambda x: next((v for k, v in self.six_contain_dict.items() if k in x), x)
@@ -102,15 +104,8 @@ class ProductCategory:
         data.loc[cond4, "category_3"] = data.loc[cond4, "mapped"].map(subsubcate_dict)
         # 1, 2, 3, 5 진행.
         
-        # 예외 처리
-        # sub_category series 처리
-        cond_except = data['product_subcategory'] == 'series'
-        data.loc[cond_except, ['category_1', 'category_2', 'category_3']] = data.loc[cond_except, ['category_1', 'category_2', 'category_3']].fillna('all')
-        # sub_category video 처리
-        cond_except = data['product_subcategory'] == 'video'
-        data.loc[cond_except, ['category_1', 'category_2', 'category_3']] = data.loc[cond_except, ['category_1', 'category_2', 'category_3']].fillna('all')
         
         # reset_index 진행.
-        df[['category_1', 'category_2', 'category_3']] = data[[['category_1', 'category_2', 'category_3']]]
+        df[['category_1', 'category_2', 'category_3']] = data[['category_1', 'category_2', 'category_3']]
         df.reset_index(drop = True, inplace = True)
         return df
