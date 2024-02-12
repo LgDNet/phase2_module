@@ -114,6 +114,26 @@ class ProductCategory:
         data.loc[cond3, "category_1"] = data.loc[cond3, "mapped"].map(sub_cate_dict)
         data.loc[cond3, "category_2"] = data.loc[cond3, "mapped"].map(sub_subcate_dict)
         data.loc[cond3, "category_3"] = data.loc[cond3, "mapped"].map(sub_subsubcate_dict)
+        # 예외처리
+        data["cate_is_nan"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1))
+        cond1 = data["cate_is_nan"] == True
+        data["mapped"] = data["product_category"].apply(
+            lambda x: next((v for k, v in self.filter1.items() if k in x), x)
+        )
+        data.loc[cond1,["category_1"]] = data.loc[cond1,"mapped"].map(self.ate_dict)
+        data.loc[cond1,["category_1"]]= data.loc[cond1,"category_1"].map(self.cate_num_dict)
+        data.loc[cond1,["category_2"]] = data.loc[cond1,"mapped"].map(self.subcate_dict)
+        data.loc[cond1,["category_3"]] = data.loc[cond1,"mapped"].map(self.subsubcate_dict)
+        data["cate_is_nan"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1))
+        cond1 = data["cate_is_nan"] == True
+        data.loc[cond1, "mapped"] = data.loc[cond1, "product_subcategory"].replace(self.six_replace_dict)
+        data.loc[cond1, "mapped"] = data.loc[cond1, "mapped"].apply(
+                    lambda x: next((v for k, v in self.six_contain_dict.items() if k in x), x)
+                )
+        sub_cate_dict, sub_subcate_dict, sub_subsubcate_dict = self.get_subcategory_dict(self.ix_cate_dict)
+        data.loc[cond1, "category_1"] = data.loc[cond1, "mapped"].map(sub_cate_dict)
+        data.loc[cond1, "category_2"] = data.loc[cond1, "mapped"].map(sub_subcate_dict)
+        data.loc[cond1, "category_3"] = data.loc[cond1, "mapped"].map(sub_subsubcate_dict)
         # reset_index 진행.
         df[['category_1', 'category_2', 'category_3']] = data[['category_1', 'category_2', 'category_3']]
         df.reset_index(drop = True, inplace = True)
