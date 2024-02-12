@@ -120,7 +120,7 @@ class ProductCategory:
         data["mapped"] = data["product_category"].apply(
             lambda x: next((v for k, v in self.filter1.items() if k in x), x)
         )
-        data.loc[cond1,["category_1"]] = data.loc[cond1,"mapped"].map(self.ate_dict)
+        data.loc[cond1,["category_1"]] = data.loc[cond1,"mapped"].map(self.cate_dict)
         data.loc[cond1,["category_1"]]= data.loc[cond1,"category_1"].map(self.cate_num_dict)
         data.loc[cond1,["category_2"]] = data.loc[cond1,"mapped"].map(self.subcate_dict)
         data.loc[cond1,["category_3"]] = data.loc[cond1,"mapped"].map(self.subsubcate_dict)
@@ -130,7 +130,7 @@ class ProductCategory:
         data.loc[cond1, "mapped"] = data.loc[cond1, "mapped"].apply(
                     lambda x: next((v for k, v in self.six_contain_dict.items() if k in x), x)
                 )
-        sub_cate_dict, sub_subcate_dict, sub_subsubcate_dict = self.get_subcategory_dict(self.ix_cate_dict)
+        sub_cate_dict, sub_subcate_dict, sub_subsubcate_dict = self.get_subcategory_dict(self.six_cate_dict)
         data.loc[cond1, "category_1"] = data.loc[cond1, "mapped"].map(sub_cate_dict)
         data.loc[cond1, "category_2"] = data.loc[cond1, "mapped"].map(sub_subcate_dict)
         data.loc[cond1, "category_3"] = data.loc[cond1, "mapped"].map(sub_subsubcate_dict)
