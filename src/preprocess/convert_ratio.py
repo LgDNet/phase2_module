@@ -23,8 +23,8 @@ class Convert_ratio:
         """ 실적 별 회사 전환율 평균 """
         # 범주화
         bin = [0.0001,10.0001,20.0001,30.0001,40.0001,50.0001,60.0001,70.0001,80.0001,90.0001,100.00,100.001]
-        df.loc[:,'customer_idx_lead_owner_mean'] = pd.cut(df['lead_owner_converted_ratio'], bins=bin, right = False,labels= False)
-        df['lead_owner_customer_idx_mean'] = df['customer_idx_lead_owner_mean']+1
+        df.loc[:,'lead_owner_customer_idx_mean'] = pd.cut(df['lead_owner_converted_ratio'], bins=bin, right = False,labels= False)
+        df['lead_owner_customer_idx_mean'] = df['lead_owner_customer_idx_mean']+1
         df['lead_owner_customer_idx_mean'].fillna(0.0,axis = 0, inplace  = True)
         # 매핑
         df['lead_owner_customer_idx_mean'].map(self.lead_owner_customer_idx_mean)
