@@ -27,7 +27,7 @@ class Convert_ratio:
         df['lead_owner_customer_idx_mean'] = df['lead_owner_customer_idx_mean']+1
         df['lead_owner_customer_idx_mean'].fillna(0.0,axis = 0, inplace  = True)
         # 매핑
-        df['lead_owner_customer_idx_mean'].map(self.lead_owner_customer_idx_mean)
+        df['lead_owner_customer_idx_mean'] = df['lead_owner_customer_idx_mean'].map(self.lead_owner_customer_idx_mean)
         return df    
 
     def ratio_preprocessing(self,df, col_name, ratio_dict):
