@@ -1,3 +1,4 @@
+import pandas as pd
 import numpy as np
 class Convert_ratio:
     def __init__(self, **kwargs):
@@ -18,7 +19,7 @@ class Convert_ratio:
         # pkl_manager.save(f"{col_name}",f"{col_name}_converted_ratio",dict_)
         return dict_
         
-    def lead_owner_customer_idx_mean(self,df):
+    def lead_owner_customer_idx_means(self,df):
         """ 실적 별 회사 전환율 평균 """
         # 범주화
         bin = [0.0001,10.0001,20.0001,30.0001,40.0001,50.0001,60.0001,70.0001,80.0001,90.0001,100.00,100.001]
