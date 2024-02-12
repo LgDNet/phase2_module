@@ -6,6 +6,7 @@ class ProductCategory:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
+            
     def get_subcategory_dict(self, dictionary):
         cate1_dict, cate2_dict, cate3_dict = {},{},{}
         # mapping
@@ -14,6 +15,7 @@ class ProductCategory:
             cate2_dict[key] = value[1]
             cate3_dict[key] = value[2]
         return(cate1_dict, cate2_dict, cate3_dict)
+    
     def label_rows(self, df):
         if (
             df["product_modelname"] is np.nan
@@ -71,9 +73,7 @@ class ProductCategory:
         
         # product_category
         data = df[['product_category','product_subcategory', 'product_modelname','customer_interest']].copy()
-        
         data["product_category"] = data["product_category"].replace(self.replacement_dict).str.replace("solar,", "")
-
         data["mapped"] = data["product_category"].apply(
             lambda x: next((v for k, v in self.filter1.items() if k in x), x)
         )
@@ -86,22 +86,20 @@ class ProductCategory:
         data["category_1"] = data["category_1"].map(self.cate_num_dict)
         data["category_2"] = data["mapped"].map(self.subcate_dict)
         data["category_3"] = data["mapped"].map(self.subsubcate_dict)
-        
         # 8번 진행.
         cond8 = (data['customer_interest'] == 8)
         data.loc[cond8, ['category_1','category_2', 'category_3']] = data.loc[cond8, ['category_1', 'category_2', 'category_3']].fillna('Unknown')
         data["cate_is_nan_all"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1)) | (data[["category_1", "category_2", "category_3"]].apply(lambda row: 'all' in row.values, axis=1))
-        
-        # 2번, 4번, 6번 진행
-        cond4 = (((data['customer_interest'] ==2) | (data['customer_interest'] == 4) | (data['customer_interest'] == 6)) & data['cate_is_nan_all'] == True)
+        # 1, 2번, 4번, 6번 진행
+        cond4 = (((data['customer_interest'] == 1) | (data['customer_interest'] ==2) | (data['customer_interest'] == 4) | (data['customer_interest'] == 6)) & data['cate_is_nan_all'] == True)
         data.loc[cond4, "mapped"] = data.loc[cond4, "product_subcategory"].replace(self.six_replace_dict)
         data.loc[cond4, "mapped"] = data.loc[cond4, "mapped"].apply(
             lambda x: next((v for k, v in self.six_contain_dict.items() if k in x), x)
         )
-        cate_dict, subcate_dict, subsubcate_dict = self.get_subcategory_dict(self.six_cate_dict)
-        data.loc[cond4, "category_1"] = data.loc[cond4, "mapped"].map(cate_dict)
-        data.loc[cond4, "category_2"] = data.loc[cond4, "mapped"].map(subcate_dict)
-        data.loc[cond4, "category_3"] = data.loc[cond4, "mapped"].map(subsubcate_dict)
+        sub_cate_dict, sub_subcate_dict, sub_subsubcate_dict = self.get_subcategory_dict(self.six_cate_dict)
+        data.loc[cond4, "category_1"] = data.loc[cond4, "mapped"].map(sub_cate_dict)
+        data.loc[cond4, "category_2"] = data.loc[cond4, "mapped"].map(sub_subcate_dict)
+        data.loc[cond4, "category_3"] = data.loc[cond4, "mapped"].map(sub_subsubcate_dict)
         # 1, 2, 3, 5 진행.
         
         
