@@ -43,10 +43,12 @@ class ProductCategory:
         df[["product_modelname", "product_subcategory", "product_category"]] = df[
             ["product_modelname", "product_subcategory", "product_category"]
         ].fillna(
-            "Unknown"
+            "Space"
         )  # 그 후 널값 채우기
         
         df["product_category"] = df["product_category"].str.lower().str.strip()
+        df["product_subcategory"] = df["product_subcategory"].str.lower().str.strip()
+        df["product_modelname"] = df["product_modelname"].str.lower().str.strip()
         # commercial tv와 projector 분류
         mask = df["product_category"] == "commercial tv,projector"
         copy_df = df[mask].copy()
@@ -86,14 +88,12 @@ class ProductCategory:
         data["category_1"] = data["category_1"].map(self.cate_num_dict)
         data["category_2"] = data["mapped"].map(self.subcate_dict)
         data["category_3"] = data["mapped"].map(self.subsubcate_dict)
-        # 7번 진행.
-        cond7 = (data['customer_interest'] == 7)
-        data.loc[cond7, ['category_1','category_2', 'category_3']] = data.loc[cond7, ['category_1', 'category_2', 'category_3']].fillna('all')
-        data["cate_is_nan_all"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1)) | (data[["category_1", "category_2", "category_3"]].apply(lambda row: 'all' in row.values, axis=1))
+        
         # 8번 진행.
         cond8 = (data['customer_interest'] == 8)
         data.loc[cond8, ['category_1','category_2', 'category_3']] = data.loc[cond8, ['category_1', 'category_2', 'category_3']].fillna('unknown')
         data["cate_is_nan_all"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1)) | (data[["category_1", "category_2", "category_3"]].apply(lambda row: 'all' in row.values, axis=1))
+        
         # 1, 2번, 4번, 6번 진행
         cond4 = (((data['customer_interest'] == 1) | (data['customer_interest'] ==2) | (data['customer_interest'] == 4) | (data['customer_interest'] == 6)) & data['cate_is_nan_all'] == True)
         data.loc[cond4, "mapped"] = data.loc[cond4, "product_subcategory"].replace(self.six_replace_dict)
@@ -114,26 +114,7 @@ class ProductCategory:
         data.loc[cond3, "category_1"] = data.loc[cond3, "mapped"].map(sub_cate_dict)
         data.loc[cond3, "category_2"] = data.loc[cond3, "mapped"].map(sub_subcate_dict)
         data.loc[cond3, "category_3"] = data.loc[cond3, "mapped"].map(sub_subsubcate_dict)
-        # 예외처리
-        data["cate_is_nan"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1))
-        cond1 = data["cate_is_nan"] == True
-        data["mapped"] = data["product_category"].apply(
-            lambda x: next((v for k, v in self.filter1.items() if k in x), x)
-        )
-        data.loc[cond1,["category_1"]] = data.loc[cond1,"mapped"].map(self.cate_dict)
-        data.loc[cond1,["category_1"]]= data.loc[cond1,"category_1"].map(self.cate_num_dict)
-        data.loc[cond1,["category_2"]] = data.loc[cond1,"mapped"].map(self.subcate_dict)
-        data.loc[cond1,["category_3"]] = data.loc[cond1,"mapped"].map(self.subsubcate_dict)
-        data["cate_is_nan"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1))
-        cond1 = data["cate_is_nan"] == True
-        data.loc[cond1, "mapped"] = data.loc[cond1, "product_subcategory"].replace(self.six_replace_dict)
-        data.loc[cond1, "mapped"] = data.loc[cond1, "mapped"].apply(
-                    lambda x: next((v for k, v in self.six_contain_dict.items() if k in x), x)
-                )
-        sub_cate_dict, sub_subcate_dict, sub_subsubcate_dict = self.get_subcategory_dict(self.six_cate_dict)
-        data.loc[cond1, "category_1"] = data.loc[cond1, "mapped"].map(sub_cate_dict)
-        data.loc[cond1, "category_2"] = data.loc[cond1, "mapped"].map(sub_subcate_dict)
-        data.loc[cond1, "category_3"] = data.loc[cond1, "mapped"].map(sub_subsubcate_dict)
+        
         # reset_index 진행.
         df[['category_1', 'category_2', 'category_3']] = data[['category_1', 'category_2', 'category_3']]
         df.reset_index(drop = True, inplace = True)
