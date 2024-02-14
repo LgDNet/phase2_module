@@ -91,7 +91,7 @@ class ProductCategory:
         
         # 8번 진행.
         cond8 = (data['customer_interest'] == 8)
-        data.loc[cond8, ['category_1','category_2', 'category_3']] = data.loc[cond8, ['category_1', 'category_2', 'category_3']].fillna('unknown')
+        data.loc[cond8, ['category_1','category_2', 'category_3']] = data.loc[cond8, ['category_1', 'category_2', 'category_3']].fillna('space')
         data["cate_is_nan_all"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1)) | (data[["category_1", "category_2", "category_3"]].apply(lambda row: 'all' in row.values, axis=1))
         
         # 1, 2번, 4번, 6번 진행
