@@ -38,7 +38,7 @@ class ProductCategory:
         else:
             return 1
 
-    def apply(self, df, module_list: list):
+    def product_categories(self, df):
         df["customer_interest"] = df.apply(lambda row: self.label_rows(row), axis=1)
         df[["product_modelname", "product_subcategory", "product_category"]] = df[
             ["product_modelname", "product_subcategory", "product_category"]
@@ -125,6 +125,21 @@ class ProductCategory:
         mask = df['category_1'].isin(['Space', 'others', 'unknown']) # 만약에 이상치라면,
         df.loc[mask, 'category_1'] = df.loc[mask, 'business_unit'].map(mapping_dict)
         df.loc[mask & df['category_1'].isin(['commercial_display', 'hvac', 'it_products']), ['category_2', 'category_3']] = 'all'
+        print('작동하나요!?')
         df = df.dropna(subset=['category_1'])
         df.reset_index(drop = True, inplace = True)
+        return df
+    
+    def apply(self, df, module_list: list):
+        if not module_list:
+            raise ValueError("Not used modules")
+
+        if not isinstance(module_list, list):
+            module_list = [module_list]
+
+        for module in module_list:
+            method = getattr(self, module)
+
+            df = method(df)
+
         return df
