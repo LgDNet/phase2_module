@@ -87,7 +87,7 @@ class ProductCategory:
         # 8번 진행.
         cond8 = (data['customer_interest'] == 8)
         data.loc[cond8, ['category_1','category_2', 'category_3']] = data.loc[cond8, ['category_1', 'category_2', 'category_3']].fillna('Space')
-        data["cate_is_nan"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1))
+        data["cate_is_nan"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1)) | (data[["category_1", "category_2", "category_3"]].apply(lambda row: 'all' in row.values, axis=1))
        
         # 1, 2번, 4번, 6번 진행
         cond4 = (((data['customer_interest'] == 1) | (data['customer_interest'] ==2) | (data['customer_interest'] == 4) | (data['customer_interest'] == 6)) & data['cate_is_nan'] == True)
@@ -99,7 +99,7 @@ class ProductCategory:
         data.loc[cond4, "category_1"] = data.loc[cond4, "mapped"].map(sub_cate_dict)
         data.loc[cond4, "category_2"] = data.loc[cond4, "mapped"].map(sub_subcate_dict)
         data.loc[cond4, "category_3"] = data.loc[cond4, "mapped"].map(sub_subsubcate_dict)
-        data["cate_is_nan"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1))
+        data["cate_is_nan"] = (data[["category_1", "category_2", "category_3"]].isna().any(axis=1)) | (data[["category_1", "category_2", "category_3"]].apply(lambda row: 'all' in row.values, axis=1))
         
         # 1, 2, 3, 5 진행.
         cond3 = (((data['customer_interest'] == 1) | (data['customer_interest'] == 2)| (data['customer_interest'] == 3) | (data['customer_interest'] == 5))& data['cate_is_nan'] == True)
@@ -125,7 +125,6 @@ class ProductCategory:
         mask = df['category_1'].isin(['Space', 'others', 'unknown']) # 만약에 이상치라면,
         df.loc[mask, 'category_1'] = df.loc[mask, 'business_unit'].map(mapping_dict)
         df.loc[mask & df['category_1'].isin(['commercial_display', 'hvac', 'it_products']), ['category_2', 'category_3']] = 'all'
-        print('작동하나요!?')
         df = df.dropna(subset=['category_1'])
         df.reset_index(drop = True, inplace = True)
         return df
