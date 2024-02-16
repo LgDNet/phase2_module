@@ -80,7 +80,6 @@ class Inquiry:
             "9 months ~ 1 year",
             "6 months ~ 9 months",
             "Follow up",
-            "3 Months ~ 6 Months",
             "No Response",
             "Budget Issue",
             "Not Interest",
@@ -119,9 +118,9 @@ class Inquiry:
         find = None
         numeric_value = None
         scope = {
-            "3": "Less than 3 Months",
-            "6": "3 Months ~ 6 Months",
-            "9": "6 Months ~ 9 Months",
+            "3": "Less than 3 months",
+            "6": "3 months ~ 6 months",
+            "9": "6 months ~ 9 months",
         }
 
         if "less" in timeline:
@@ -140,9 +139,9 @@ class Inquiry:
         numeric_value = None
         scope = {
             "9": "More than a year",
-            "6": "6 Months ~ 9 Months",
-            "3": "3 Months ~ 6 Months",
-            "0": "Less than 3 Months",
+            "6": "6 months ~ 9 months",
+            "3": "3 months ~ 6 months",
+            "0": "Less than 3 months",
         }
 
         if "more" in timeline:
