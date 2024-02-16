@@ -88,7 +88,7 @@ class Inquiry:
 
     def fill(self, df):
         df["inquiry_type"].fillna("-", inplace=True)
-        df['expected_timeline'] = df['expected_timeline'].replace("Months",'months')
+        df['expected_timeline'] = df['expected_timeline'].replace("Months", 'months')
         return df
 
     def new_inquiry_type(self, old_inquiry_type):
@@ -120,8 +120,8 @@ class Inquiry:
         numeric_value = None
         scope = {
             "3": "Less than 3 Months",
-            "6": "3 Months ~ 6 Months",
-            "9": "6 Months ~ 9 Months",
+            "6": "3 months ~ 6 months",
+            "9": "6 months ~ 9 months",
         }
 
         if "less" in timeline:
@@ -140,8 +140,8 @@ class Inquiry:
         numeric_value = None
         scope = {
             "9": "More than a year",
-            "6": "6 Months ~ 9 Months",
-            "3": "3 Months ~ 6 Months",
+            "6": "6 months ~ 9 months",
+            "3": "3 months ~ 6 months",
             "0": "Less than 3 Months",
         }
 
