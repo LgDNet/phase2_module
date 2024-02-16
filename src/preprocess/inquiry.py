@@ -209,6 +209,6 @@ class Inquiry:
             df["new_expected_timeline"].isin(self.categories), "Unknown"
         )
 
-        df = self.create_expected_timeline_ratio(df)
+        # df = self.create_expected_timeline_ratio(df)
 
         return df
