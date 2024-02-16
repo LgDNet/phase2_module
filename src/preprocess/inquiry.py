@@ -165,6 +165,18 @@ class Inquiry:
 
         return new_expected_timeline
 
+    def create_expected_timeline_ratio(self, df):
+        lead_owner_dict = {}
+        col_name = 'new_expected_timeline'
+        flag = df.groupby(col_name)['is_converted'].agg(['sum', 'count'])
+        for idx, plus, counts in zip(flag.index, flag['sum'], flag['count']):
+            cond = df[col_name] == idx
+            ratio = (plus / counts) * 100
+            df.loc[cond, f'{col_name}_converted_ratio'] = round(ratio, 2)
+            lead_owner_dict[idx] = ratio
+
+        return df
+
     def apply(self, df, module_list=None):
         df = self.fill(df)
         df["new_inquiry_type"] = df["inquiry_type"].apply(self.new_inquiry_type)
@@ -196,5 +208,7 @@ class Inquiry:
         df["new_expected_timeline"] = df["new_expected_timeline"].where(
             df["new_expected_timeline"].isin(self.categories), "Unknown"
         )
+
+        df = self.create_expected_timeline_ratio(df)
 
         return df
