@@ -80,7 +80,6 @@ class Inquiry:
             "9 months ~ 1 year",
             "6 months ~ 9 months",
             "Follow up",
-            "3 Months ~ 6 Months",
             "No Response",
             "Budget Issue",
             "Not Interest",
@@ -89,6 +88,7 @@ class Inquiry:
 
     def fill(self, df):
         df["inquiry_type"].fillna("-", inplace=True)
+        df['expected_timeline'] = df['expected_timeline'].replace("Months",'months')
         return df
 
     def new_inquiry_type(self, old_inquiry_type):
