@@ -2,47 +2,11 @@ import pickle
 import pandas as pd
 
 class Enquipment:
-    def __init__(self):
-        self.df = pd.read_csv('phase2_module/data/train.csv')
+    def __init__(self, df):
+        self.df = df
 
     def dataframe(self):
         return self.df
-        
-    def value_counts(self, *args):
-        """ Show Value_counts """
-        for col in args:
-            print(f"############# {col} ################")
-            print(self.df[col].value_counts())
-            print(len(self.df[col].value_counts()))
-            print("\n")
-    
-    def is_na(self, *args):
-        """" Show Missing Value """
-        col_list=[]
-        null_list=[]
-        for col in args:
-            col_list.append(col)
-            null_list.append(self.df[col].isnull().sum())
-    
-        df = pd.DataFrame(data=[null_list], index=['null'], columns=col_list).T.sort_index()
-        return df
-
-    def describe_columns(self, *args):
-        """ Description of Columns """
-        
-        with open('dictionary/description_columns.pickle', 'rb') as fr:
-            description_columns = pickle.load(fr)
-        
-        for column in args:
-            if column in description_columns:
-                print(f"{column}: {description_columns[column]}")
-            else:
-                print(f"{column}: No description available")
-                
-    def importance(self):
-        """ Show Importance of Columns"""
-        importance_df = pd.read_csv("dictionary/importance_df.csv")
-        return importance_df
 
     def raw_df(self):
         """기존 데이터를 반환하는 함수"""
@@ -86,3 +50,48 @@ class Enquipment:
         derivated_df = df[derivated_col]
     
         return derivated_df
+        
+    def value_counts(self, *args):
+        """ Show Value_counts """
+        for col in args:
+            print(f"############# {col} ################")
+            print(self.df[col].value_counts())
+            print(len(self.df[col].value_counts()))
+            print("\n")
+    
+    def is_na(self, *args):
+        """" Show Missing Value """
+        col_list=[]
+        null_list=[]
+        for col in args:
+            col_list.append(col)
+            null_list.append(self.df[col].isnull().sum())
+    
+        df = pd.DataFrame(data=[null_list], index=['null'], columns=col_list).T.sort_index()
+        return df
+
+    def describe_columns(self, *args):
+        """ Description of Columns """
+        
+        with open('phase2_module/workspace/EDA/dictionary/description_columns.pickle', 'rb') as fr:
+
+            description_columns = pickle.load(fr)
+        
+        for column in args:
+            if column in description_columns:
+                print(f"{column}: {description_columns[column]}")
+            else:
+                print(f"{column}: No description available")
+                
+    def importance(self):
+        """ Show Importance of Columns"""
+        importance_df = pd.read_csv("phase2_module/workspace/EDA/dictionary/importance_df.csv")
+        return importance_df
+
+
+    def missing_columns(self, null_cols:list, not_null_cols:list)-> list:
+        null_cols = set(null_cols).difference(set(not_null_cols))
+
+        return null_cols
+
+    
