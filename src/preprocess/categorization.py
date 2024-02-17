@@ -4,7 +4,7 @@ class Categorization():
             setattr(self, key, value)
         
     def cat_customer_idx(self, df):
-        df['new_customer_idx'] = df['customer_idx'].astype(str).str[:4]
+        df['new_customer_idx'] = df['customer_idx'].astype(str).str[:2]
         return df
     
     def apply(self, df, module_list=None):
