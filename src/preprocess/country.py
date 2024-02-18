@@ -18,25 +18,29 @@ class Country:
         # 정규표현식으로 나라만 거르기
         df.loc[:, "country"] = df["customer_country"].str.extract(r"/([^/]+)$")[0]
         df["country"] = df["country"].str.strip()
-        
+
         # country를 기준으로 채움
         country_val = df['country'].values
         country_unique = df['response_corporate2'].unique()
-        
+
         for idx, country in enumerate(country_val):
-            if country not in country_unique: # 전처리 된 컬럼의 요소가 정해진 나라 범주에 없으면
-                df.loc[idx,'country'] = df.loc[idx,'response_corporate2'] # 해당 나라 범주로 채움
+            if country not in country_unique:  # 전처리 된 컬럼의 요소가 정해진 나라 범주에 없으면
+                df.loc[idx, 'country'] = df.loc[idx, 'response_corporate2']  # 해당 나라 범주로 채움
         # 컬럼 드롭
-        df.drop(['response_corporate2'],axis = 1, inplace = True)
+        df.drop(['response_corporate2'], axis=1, inplace=True)
         return df
-        
-    def continent(self,df):
+
+    def continent(self, df):
         """대륙 컬럼 생성"""
         df['continent'] = df['country'].map(self.country_continent)
+
+        # NOTE: russia & csi 변환
+        cond = df['continent']=='russia & cis'
+        df.loc[cond, 'continent'] = 'asia & pacific'
         return df
 
     def apply(self, df, module_list=None):
-        
+
         df = self.country(df)
         df = self.continent(df)
         return df
