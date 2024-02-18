@@ -4,6 +4,7 @@ class Categorization():
             setattr(self, key, value)
         
     def cat_customer_idx(self, df):
+        """ Categorize for Customer_idx """
         df['new_customer_idx'] = df['customer_idx'].astype(str).str[:2]
         return df
     

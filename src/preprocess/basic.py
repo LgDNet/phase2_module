@@ -22,6 +22,21 @@ class Basic:
         df = df.drop('enterprise', axis=1).merge(mode_df, on='customer_idx')
         return df
 
+    def customer_idx_merge_enterprise2(self, df):
+        """tmp merge"""
+        def most_common(x):
+            return Counter(x).most_common(1)[0][0]
+
+        mode_df = df.groupby('new_customer_idx')['enterprise'].agg(most_common).reset_index()
+        df = df.drop('enterprise', axis=1).merge(mode_df, on='new_customer_idx')
+        return df
+
+    def cat_customer_idx(self, df):
+        """ Categorize for Customer_idx """
+        df['new_customer_idx'] = df['customer_idx'].astype(str).str[:2]
+        return df
+        
+
     def cusotmer_idx_categorization(self,df, bins=[0, 2, 10, 100, 1000, 10000]):
         """customer_idx 범주화"""
         customer_idx_counts = df['customer_idx'].value_counts()
