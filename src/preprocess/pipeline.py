@@ -7,6 +7,6 @@ def runner(data, **kwargs):
 
         else:
             instance = instance()
-
         df = instance.apply(df, value.get("method"))
+        
     return df
