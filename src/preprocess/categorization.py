@@ -21,8 +21,8 @@ class Categorization:
         return df
     
     def historical_cnt_mean(self, df):
-        historical_dict = raw_df.groupby('new_customer_idx')['historical_existing_cnt'].mean().sort_values(ascending=False).to_dict()
-        raw_df['historial_existing_mean'] = raw_df['new_customer_idx'].map(historical_dict)
+        historical_dict = df.groupby('new_customer_idx')['historical_existing_cnt'].mean().sort_values(ascending=False).to_dict()
+        df['historial_existing_mean'] = df['new_customer_idx'].map(historical_dict)
         return df
     
     def apply(self, df, module_list):
