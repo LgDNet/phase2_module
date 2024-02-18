@@ -44,7 +44,7 @@ class Convert_ratio:
     def customer_idx(self,df):
         return self.ratio_preprocessing(df, 'customer_idx', self.customer_idx_converted_ratio)
         
-    def all_true(self,df):
+    def all_trues(self,df):
         return self.ratio_preprocessing(df, 'customer_idx', self.all_true)
     
     def apply(self, df, module_list):
