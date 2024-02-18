@@ -17,7 +17,9 @@ class Customer2:
                         if key in row[col]:
                             return self.seniority[key]
             return 'others'
-        df['seniority_level'] = data.apply(map_seniority, axis =1)
+        data['seniority_level'] = data.apply(map_seniority, axis =1)
+        data["seniority_level"] = data["seniority_level"].map(self.seniority_map)
+        df['seniority_level'] = data['seniority_level']
         return df
     
     def apply(self, df, module_list: list):
