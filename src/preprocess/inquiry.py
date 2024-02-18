@@ -177,6 +177,18 @@ class Inquiry:
 
         return df
 
+    def less_than_3months_binary_feature(self, df):
+        """
+        timeline이 3개월 미만인 경우 1, 그 외 0 파생변수 생성
+
+        마감기한이 촉박할수록 잠재고객이 될 확률이 올라갈 것 같다는 가설
+        """
+        cond = df["new_expected_timeline"] == "Less than 3 Months"
+        df.loc[cond, "less_timeline"] = 1
+        df["less_timeline"].fillna(0, inplace=True)
+
+        return df
+
     def apply(self, df, module_list=None):
         df = self.fill(df)
         df["new_inquiry_type"] = df["inquiry_type"].apply(self.new_inquiry_type)
@@ -209,6 +221,6 @@ class Inquiry:
             df["new_expected_timeline"].isin(self.categories), "Unknown"
         )
 
-        # df = self.create_expected_timeline_ratio(df)
+        df = self.less_than_3months_binary_feature(df)
 
         return df
