@@ -34,8 +34,16 @@ class Convert_ratio:
         """ 해당 컬럼 전환율 변환 """
         for i in np.sort(df[col_name].unique()):
             if i not in ratio_dict.keys(): # 없으면 추가
-                self.lead_owner_converted_ratio[i] = 0.0
+                ratio_dict[i] = 0.0
         df[f'{col_name}_converted_ratio'] = df[col_name].map(ratio_dict)
+        return df
+        
+    def conert_all_trues(self,df, col_name, ratio_dict):
+        """ 해당 컬럼 전환율 변환 """
+        for i in np.sort(df[col_name].unique()):
+            if i not in ratio_dict.keys(): # 없으면 추가
+                ratio_dict[i] = 0.0
+        df[f'convert_all_true'] = df[col_name].map(ratio_dict)
         return df
         
     def lead_owner(self,df):
@@ -44,8 +52,8 @@ class Convert_ratio:
     def customer_idx(self,df):
         return self.ratio_preprocessing(df, 'customer_idx', self.customer_idx_converted_ratio)
         
-    def all_trues(self,df):
-        return self.ratio_preprocessing(df, 'customer_idx', self.all_true)
+    def convert_all_true(self,df):
+        return self.conert_all_trues(df, 'customer_idx', self.all_true)
     
     def apply(self, df, module_list):
         if not module_list:
