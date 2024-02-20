@@ -27,6 +27,7 @@ class Customer2:
         data =df[['customer_job','customer_type','customer_position','customer_type2','seniority_level','job_function']].copy()
         data['customer_job'] =data['customer_job'].fillna('Space')
         data['customer_job'] = data['customer_job'].str.replace('_', '')
+        
         def map_job(row):
             columns = ['customer_job', 'customer_type','customer_position', 'job_function']
             for col in columns:
@@ -34,7 +35,10 @@ class Customer2:
                     for key in self.job_dict:
                         if key in row[col]:
                             return self.job_dict[key]
+                        elif row[col] =='Space':
+                            return 'Space'
             return 'others'
+        
         data['customer_job'] = data.apply(map_job, axis =1)
         df['job_function'] = data['customer_job']
         return df
