@@ -70,6 +70,7 @@ class Customer2:
         data['new_customer_type1'] = data['mapped'].map(customer_type1)
         data['new_customer_type2'] = data['mapped'].map(customer_type2)
         df[['new_customer_type1','new_customer_type2']] = data[['new_customer_type1','new_customer_type2']]
+        return df
         
         
     def apply(self, df, module_list: list):
