@@ -36,7 +36,7 @@ class Customer2:
                             return self.job_dict[key]
             return 'others'
         data['customer_job'] = data.apply(map_job, axis =1)
-        df['seniority_level'] = data['customer_job']
+        df['job_function'] = data['customer_job']
         return df
         
     def apply(self, df, module_list: list):
