@@ -41,9 +41,9 @@ class Encode:
         df.drop(col_, axis=1, inplace=True)
         return df
 
-    def onehot_encoder(self, df, columns):
+    def onehot_encoder(self, df, columns, sparse):
         if not ENCODERS["onehot"]:
-            encoder = OneHotEncoder(sparse=False)
+            encoder = OneHotEncoder(sparse=sparse)
             try:
                 onehot_arr = encoder.fit_transform(df[columns])
                 df = self.convert_dataframe(
