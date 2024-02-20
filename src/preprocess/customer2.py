@@ -22,6 +22,23 @@ class Customer2:
         df['seniority_level'] = data['seniority_level']
         return df
     
+    
+    def job_function(self, df):
+        data =df[['customer_job','customer_type','customer_position','customer_type2','seniority_level','job_function']].copy()
+        data['customer_job'] =data['customer_job'].fillna('Space')
+        data['customer_job'] = data['customer_job'].str.replace('_', '')
+        def map_job(row):
+            columns = ['customer_job', 'customer_type','customer_position', 'job_function']
+            for col in columns:
+                if isinstance(row[col], str):
+                    for key in self.job_dict:
+                        if key in row[col]:
+                            return self.job_dict[key]
+            return 'others'
+        data['customer_job'] = data.apply(map_job, axis =1)
+        df['seniority_level'] = data['customer_job']
+        return df
+        
     def apply(self, df, module_list: list):
         if not module_list:
             raise ValueError("Not used modules")
