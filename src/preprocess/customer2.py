@@ -6,7 +6,8 @@ class Customer2:
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
             setattr(self, key, value)
-    def get_type_dict(dictionary):
+            
+    def get_type_dict(self, dictionary):
         cate1_dict, cate2_dict = {},{}
         # mapping
         for key, value in dictionary.items():
