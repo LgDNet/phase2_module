@@ -65,10 +65,10 @@ class Customer2:
                             return self.customer_type_filter[key]
             return row['customer_type']
         
-        data['mapped'] = data.apply(map_type, axis =1)
+        data['customer_type'] = data.apply(map_type, axis =1)
         customer_type1, customer_type2 = self.get_type_dict(self.customer_type_dict)
-        data['new_customer_type1'] = data['mapped'].map(customer_type1)
-        data['new_customer_type2'] = data['mapped'].map(customer_type2)
+        data['new_customer_type1'] = data['customer_type'].map(customer_type1)
+        data['new_customer_type2'] = data['customer_type'].map(customer_type2)
         df[['new_customer_type1','new_customer_type2']] = data[['new_customer_type1','new_customer_type2']]
         return df
         
