@@ -10,7 +10,10 @@ ENCODERS = defaultdict(list)
 class Encode:
     def __init__(self):
         pass
-
+    
+    def set_up(self):
+        ENCODERS.clear()
+        
     def label_encoder(self, df, columns):
         if not ENCODERS["label"]:
             for col in columns:  # NOTE: train
@@ -30,6 +33,7 @@ class Encode:
                     if label not in encoder.classes_:
                         encoder.classes_ = np.append(encoder.classes_, label)
                 df.loc[:, col] = encoder.transform(df[col])
+        df[col] = df[col].astype('int64')
         return df
 
     def convert_dataframe(self, df, onehot_arr, category_list, col_):
