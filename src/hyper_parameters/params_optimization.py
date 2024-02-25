@@ -46,7 +46,7 @@ def display_best_param_score(study_best_trial):
         print(f'{key}: {value}')
 
 
-def xgboost_opt(model):
+def xgboost_opt(model, n):
     """
     model: Model instance
     schema_name: Schema file name
@@ -71,7 +71,7 @@ def xgboost_opt(model):
         return accuracy
 
     study = optuna.create_study(study_name="xgboost", direction='maximize')
-    study.optimize(objective, n_trials=500, timeout=5000)
+    study.optimize(objective, n_trials=n, timeout=5000)
 
     l_trial = study.best_trial
     display_best_param_score(l_trial)
@@ -79,7 +79,7 @@ def xgboost_opt(model):
     return l_trial.params
 
 
-def lightgbm_opt(model):
+def lightgbm_opt(model, n):
     """
     model: Model instance
     schema_name: Schema file name
@@ -113,7 +113,7 @@ def lightgbm_opt(model):
 
     sampler = TPESampler(seed=1)
     study = optuna.create_study(study_name="lightgbm", direction="maximize", sampler=sampler)
-    study.optimize(objective, n_trials=1, timeout=2000)
+    study.optimize(objective, n_trials=n, timeout=2000)
 
     l_trial = study.best_trial
     display_best_param_score(l_trial)
@@ -121,7 +121,7 @@ def lightgbm_opt(model):
     return l_trial.params
 
 
-def decision_tree_opt(model):
+def decision_tree_opt(model, n):
     """
     model: Model instance
     schema_name: Schema file name
@@ -148,7 +148,7 @@ def decision_tree_opt(model):
         return accuracy
 
     study = optuna.create_study(study_name="decision_tree", direction='maximize')
-    study.optimize(objective, n_trials=2000, timeout=5000)
+    study.optimize(objective, n_trials=n, timeout=5000)
 
     l_trial = study.best_trial
     display_best_param_score(l_trial)
@@ -156,7 +156,7 @@ def decision_tree_opt(model):
     return l_trial.params
 
 
-def random_forest_opt(model):
+def random_forest_opt(model, n):
     """
     model: Model instance
     schema_name: Schema file name
@@ -183,7 +183,7 @@ def random_forest_opt(model):
         return accuracy
 
     study = optuna.create_study(study_name="random_forest", direction='maximize')
-    study.optimize(objective, n_trials=150, timeout=5000)
+    study.optimize(objective, n_trials=n, timeout=5000)
 
     l_trial = study.best_trial
     display_best_param_score(l_trial)
@@ -191,7 +191,7 @@ def random_forest_opt(model):
     return l_trial.params
 
 
-def gbm_opt(model):
+def gbm_opt(model, n):
     """
     model: Model instance
     schema_name: Schema file name
@@ -218,7 +218,7 @@ def gbm_opt(model):
         return accuracy
 
     study = optuna.create_study(study_name="gradient_boosting", direction='maximize')
-    study.optimize(objective, n_trials=150, timeout=5000)
+    study.optimize(objective, n_trials=n, timeout=5000)
 
     l_trial = study.best_trial
     display_best_param_score(l_trial)

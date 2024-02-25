@@ -1,5 +1,4 @@
 {
-    "iterations": {"params": [1000, 20000], "dtype": "int"},
     "criterion": {"params": ["friedman_mse", "squared_error"], "dtype": "category"},
     "learning_rate": {"params": [1e-4, 0.001], "dtype" : "float"},
     "n_estimators": {"params": [500, 2000], "dtype" : "int"},
