@@ -48,7 +48,7 @@ class Model:
     @property
     @not_module_handler
     def svm(self):
-        return SVC(kernel="rbf", random_state=42)
+        return SVC(random_state=42, probability = True)
 
     @property
     @not_module_handler
