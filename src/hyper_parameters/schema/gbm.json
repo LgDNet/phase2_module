@@ -1,0 +1,9 @@
+{
+    "iterations": {"params": [1000, 20000], "dtype": "int"},
+    "criterion": {"params": ["friedman_mse", "squared_error"], "dtype": "category"},
+    "learning_rate": {"params": [1e-4, 0.001], "dtype" : "float"},
+    "n_estimators": {"params": [500, 2000], "dtype" : "int"},
+    "max_depth": {"params": [5, 50], "dtype": "int"},
+    "min_samples_split": {"params": [2, 10], "dtype": "int"},
+    "min_samples_leaf": {"params": [1, 4], "dtype": "int"}
+}
