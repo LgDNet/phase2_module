@@ -22,6 +22,7 @@ def load_schema(schema_name: str):
     schema_name: Model name types has str
     """
     schema_path = Path(BASE, "schema", f"{schema_name}.json")
+    schema = None
 
     try:
         with open(schema_path, "r") as f:
@@ -71,7 +72,7 @@ def xgboost_opt(model):
         return accuracy
 
     study = optuna.create_study(study_name="xgboost", direction='maximize')
-    study.optimize(objective, n_trials=1, timeout=5000)
+    study.optimize(objective, n_trials=500, timeout=5000)
 
     l_trial = study.best_trial
     display_best_param_score(l_trial)
@@ -114,6 +115,78 @@ def lightgbm_opt(model):
     sampler = TPESampler(seed=1)
     study = optuna.create_study(study_name="lightgbm", direction="maximize", sampler=sampler)
     study.optimize(objective, n_trials=1, timeout=2000)
+
+    l_trial = study.best_trial
+    display_best_param_score(l_trial)
+
+    return l_trial.params
+
+
+def decision_tree_opt(model):
+    """
+    model: Model instance
+    schema_name: Schema file name
+    """
+
+    schema = load_schema("dt")
+
+    x_train, x_test, y_train, y_test = DATA
+    evals = [(x_test, y_test)]
+
+    def objective(trial):
+        param = {}
+        for parameter_name, parameter_info in schema.items():
+            if parameter_info.get("dtype") == "int":
+                param[parameter_name] = trial.suggest_int(parameter_name, *parameter_info.get("params"))
+            elif parameter_info.get("dtype") == "float":
+                param[parameter_name] = trial.suggest_float(parameter_name, *parameter_info.get("params"))
+            else:
+                param[parameter_name] = trial.suggest_categorical(parameter_name, parameter_info.get("params"))
+
+        dtopt = model.set_params(**param, )
+        dtopt.fit(x_train, y_train)
+        preds = dtopt.predict(x_test)
+        accuracy = check_the_score(y_test, preds).get("f1")
+        return accuracy
+
+    study = optuna.create_study(study_name="decision_tree", direction='maximize')
+    study.optimize(objective, n_trials=2000, timeout=5000)
+
+    l_trial = study.best_trial
+    display_best_param_score(l_trial)
+
+    return l_trial.params
+
+
+def random_forest_opt(model):
+    """
+    model: Model instance
+    schema_name: Schema file name
+    """
+
+    schema = load_schema("rf")
+
+    x_train, x_test, y_train, y_test = DATA
+    evals = [(x_test, y_test)]
+
+    def objective(trial):
+        param = {}
+        for parameter_name, parameter_info in schema.items():
+            if parameter_info.get("dtype") == "int":
+                param[parameter_name] = trial.suggest_int(parameter_name, *parameter_info.get("params"))
+            elif parameter_info.get("dtype") == "float":
+                param[parameter_name] = trial.suggest_float(parameter_name, *parameter_info.get("params"))
+            else:
+                param[parameter_name] = trial.suggest_categorical(parameter_name, parameter_info.get("params"))
+
+        rfopt = model.set_params(**param, )
+        rfopt.fit(x_train, y_train)
+        preds = rfopt.predict(x_test)
+        accuracy = check_the_score(y_test, preds).get("f1")
+        return accuracy
+
+    study = optuna.create_study(study_name="random_forest", direction='maximize')
+    study.optimize(objective, n_trials=150, timeout=5000)
 
     l_trial = study.best_trial
     display_best_param_score(l_trial)

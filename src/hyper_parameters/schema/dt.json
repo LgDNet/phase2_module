@@ -1,0 +1,6 @@
+{
+    "max_depth": {"params": [2, 64], "dtype": "int"},
+    "min_samples_leaf": {"params": [1, 32], "dtype": "int"},
+    "min_samples_split": {"params": [2, 64], "dtype": "int"},
+    "criterion": {"params": ["gini", "entropy", "log_loss"], "dtype": "category"}
+}

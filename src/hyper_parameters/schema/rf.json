@@ -1,0 +1,8 @@
+{
+    "n_estimators": {"params": [1500, 2500], "dtype": "int"},
+    "max_depth": {"params": [2, 64], "dtype": "int"},
+    "max_leaf_nodes": {"params": [2, 1000], "dtype": "int"},
+    "max_features": {"params": ["auto", "sqrt"], "dtype": "category"},
+    "min_samples_split": {"params": [2, 10], "dtype": "int"},
+    "min_samples_leaf": {"params": [1, 4], "dtype": "int"}
+}
