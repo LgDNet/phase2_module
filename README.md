@@ -1,4 +1,4 @@
-# LG Aimers Hackerthon Playground
+# LG Aimers Hackathon Playground
 
 > Phase running time
 - 2024.01 ~ 2024.03
